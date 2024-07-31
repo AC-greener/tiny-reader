@@ -10,6 +10,7 @@ const EbookReader = () => {
   const [isTocVisible, setIsTocVisible] = useState(true);
   const [fontSize, setFontSize] = useState(16);
   const renditionRef = useRef(null);
+  const readerContentRef = useRef(null);
 
   useEffect(() => {
     const initBook = async () => {
@@ -25,10 +26,11 @@ const EbookReader = () => {
 
       await newBook.ready;
       
-      const rendition = newBook.renderTo("reader-content", {
+      const rendition = newBook.renderTo(readerContentRef.current, {
         width: "100%",
         height: "100%",
-        spread: "none"
+        flow: "scrolled-doc",
+        manager: "continuous"
       });
       renditionRef.current = rendition;
 
@@ -43,6 +45,17 @@ const EbookReader = () => {
         renditionRef.current.destroy();
       }
     };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (renditionRef.current) {
+        renditionRef.current.resize();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const renderChapter = async (chapter) => {
@@ -74,7 +87,7 @@ const EbookReader = () => {
     <div className="flex h-screen">
       {/* 左侧目录 */}
       <div className={`${isTocVisible ? 'w-1/4' : 'w-0'} transition-all duration-300 overflow-hidden border-r`}>
-        <div className="p-4">
+        <div className="p-4 h-full overflow-auto">
           <h2 className="text-xl font-bold mb-4">目录</h2>
           <ul>
             {toc.map((chapter, index) => (
@@ -107,7 +120,7 @@ const EbookReader = () => {
           </div>
         </div>
         <div className="flex-grow overflow-auto p-4">
-          <div id="reader-content" className="h-full"></div>
+          <div ref={readerContentRef} className="h-full"></div>
         </div>
       </div>
     </div>
