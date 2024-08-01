@@ -1,9 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
 import ePub from 'epubjs'
-import { ChevronLeft, ChevronRight, Plus, Minus, Settings, Menu } from 'lucide-react'
 import TableOfContents from '@/components/Toc'
 import Header from '@/components/Header'
 
