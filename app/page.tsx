@@ -28,7 +28,7 @@ export default function CombinedEbookReader() {
       })
 
       await newBook.ready
-      
+
       const rendition = newBook.renderTo(readerContentRef.current, {
         width: "100%",
         height: "100%",
@@ -92,49 +92,48 @@ export default function CombinedEbookReader() {
   }
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
-      <div 
-        className={`
-          fixed left-0 top-0 bottom-0 z-30 w-[280px] 
-          bg-muted/40 border-r transition-transform duration-300 ease-in-out
-          ${isTocVisible ? 'translate-x-0' : '-translate-x-full'}
-        `}
-      >
-        <div className="flex h-full flex-col gap-4 p-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Table of Contents</h2>
-            <Button variant="ghost" size="icon" onClick={toggleToc}>
-              <MenuIcon className="h-6 w-6" />
-            </Button>
-          </div>
-          <div className="flex-1 overflow-auto">
-            <nav className="space-y-2">
-              {toc.map((chapter, index) => (
-                <Link
-                  key={index}
-                  href="#"
-                  className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                    currentChapter === chapter ? "bg-primary text-primary-foreground" : "hover:bg-muted hover:text-foreground"
-                  }`}
-                  onClick={() => renderChapter(chapter)}
-                  prefetch={false}
-                >
-                  {chapter.label}
-                </Link>
-              ))}
-            </nav>
+    <div className="flex h-screen w-full">
+      <aside className={`
+        h-full bg-muted/40 border-r transition-all duration-300 ease-in-out overflow-hidden
+        ${isTocVisible ? 'w-[280px]' : 'w-0'}
+      `}>
+        <div className="h-full w-[280px]">
+          <div className="flex h-full flex-col gap-4 p-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Table of Contents</h2>
+              <Button variant="ghost" size="icon" onClick={toggleToc}>
+                <MenuIcon className="h-6 w-6" />
+              </Button>
+            </div>
+            <div className="flex-1 overflow-auto">
+              <nav className="space-y-2">
+                {toc.map((chapter, index) => (
+                  <Link
+                    key={index}
+                    href="#"
+                    className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                      currentChapter === chapter ? "bg-primary text-primary-foreground" : "hover:bg-muted hover:text-foreground"
+                    }`}
+                    onClick={() => renderChapter(chapter)}
+                    prefetch={false}
+                  >
+                    {chapter.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
         </div>
-      </div>
-      <div className={`flex flex-col flex-grow transition-all duration-300 ${isTocVisible ? 'ml-[280px]' : 'ml-0'}`}>
+      </aside>
+      <div className="flex flex-col flex-grow min-w-0">
         <header className="flex items-center justify-between border-b bg-muted/40 px-6 py-4">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" onClick={toggleToc}>
               {isTocVisible ? <ChevronLeft className="h-6 w-6" /> : <ChevronRight className="h-6 w-6" />}
             </Button>
-            <div className="text-lg font-semibold">The Coding Career Handbook</div>
+            <div className="text-lg font-semibold truncate">The Coding Career Handbook</div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 ml-auto">
             <Button variant="ghost" size="icon" onClick={() => changeFontSize(-1)}>
               <Minus className="h-6 w-6" />
             </Button>
