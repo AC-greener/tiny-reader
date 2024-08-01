@@ -6,12 +6,13 @@ import ePub from 'epubjs'
 import { ChevronLeft, ChevronRight, Plus, Minus, Settings, Menu } from 'lucide-react'
 import TableOfContents from '@/components/Toc'
 import Header from '@/components/Header'
+
 export default function CombinedEbookReader() {
   const [book, setBook] = useState(null)
   const [toc, setToc] = useState([])
   const [currentChapter, setCurrentChapter] = useState(null)
   const [isTocVisible, setIsTocVisible] = useState(true)
-  const [fontSize, setFontSize] = useState(16)
+  const [fontSize, setFontSize] = useState(16) // 默认字体大小为 16px
   const renditionRef = useRef(null)
   const readerContentRef = useRef(null)
 
@@ -38,7 +39,7 @@ export default function CombinedEbookReader() {
       renditionRef.current = rendition
 
       rendition.display()
-      applyFontSize(rendition)
+      applyFontSize(rendition, fontSize)
     }
 
     initBook()
@@ -79,13 +80,13 @@ export default function CombinedEbookReader() {
 
   const changeFontSize = (delta) => {
     setFontSize(prevSize => {
-      const newSize = prevSize + delta
+      const newSize = Math.max(8, Math.min(prevSize + delta, 24)) // 限制字体大小在 8px 到 32px 之间
       applyFontSize(renditionRef.current, newSize)
       return newSize
     })
   }
 
-  const applyFontSize = (rendition = null, size = fontSize) => {
+  const applyFontSize = (rendition, size) => {
     if (rendition) {
       rendition.themes.fontSize(`${size}px`)
     }
