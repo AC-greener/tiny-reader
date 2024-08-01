@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import ePub from 'epubjs'
 import { ChevronLeft, ChevronRight, Plus, Minus, Settings, Menu } from 'lucide-react'
 import TableOfContents from '@/components/Toc'
+import Header from '@/components/Header'
 export default function CombinedEbookReader() {
   const [book, setBook] = useState(null)
   const [toc, setToc] = useState([])
@@ -93,33 +94,19 @@ export default function CombinedEbookReader() {
   return (
     <div className="flex h-screen w-full">
       <TableOfContents
-          toc={toc}
-          currentChapter={currentChapter}
-          renderChapter={renderChapter}
+        toc={toc}
+        currentChapter={currentChapter}
+        renderChapter={renderChapter}
+        toggleToc={toggleToc}
+        isTocVisible={isTocVisible}
+      />
+      <div className="flex flex-col flex-grow min-w-0">
+        <Header
           toggleToc={toggleToc}
           isTocVisible={isTocVisible}
+          fontSize={fontSize}
+          changeFontSize={changeFontSize}
         />
-      <div className="flex flex-col flex-grow min-w-0">
-        <header className="flex items-center justify-between border-b bg-muted/40 px-6 py-4">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={toggleToc}>
-              {isTocVisible ? <ChevronLeft className="h-6 w-6" /> : <ChevronRight className="h-6 w-6" />}
-            </Button>
-            <div className="text-lg font-semibold truncate">The Coding Career Handbook</div>
-          </div>
-          <div className="flex items-center gap-4 ml-auto">
-            <Button variant="ghost" size="icon" onClick={() => changeFontSize(-1)}>
-              <Minus className="h-6 w-6" />
-            </Button>
-            <span>{fontSize}px</span>
-            <Button variant="ghost" size="icon" onClick={() => changeFontSize(1)}>
-              <Plus className="h-6 w-6" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Settings className="h-6 w-6" />
-            </Button>
-          </div>
-        </header>
         <main className="flex-1 overflow-auto flex justify-center">
           <div ref={readerContentRef} className="h-full w-full max-w-6xl px-4"></div>
         </main>
