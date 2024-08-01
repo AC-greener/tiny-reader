@@ -102,7 +102,7 @@ export default function CombinedEbookReader() {
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Table of Contents</h2>
               <Button variant="ghost" size="icon" onClick={toggleToc}>
-                <MenuIcon className="h-6 w-6" />
+                <Menu className="h-6 w-6" />
               </Button>
             </div>
             <div className="flex-1 overflow-auto">
@@ -142,19 +142,19 @@ export default function CombinedEbookReader() {
               <Plus className="h-6 w-6" />
             </Button>
             <Button variant="ghost" size="icon">
-              <SettingsIcon className="h-6 w-6" />
+              <Settings className="h-6 w-6" />
             </Button>
           </div>
         </header>
-        <main className="flex-1 overflow-auto">
-          <div ref={readerContentRef} className="h-full w-full"></div>
+        <main className="flex-1 overflow-auto flex justify-center">
+          <div ref={readerContentRef} className="h-full w-full max-w-6xl px-4"></div>
         </main>
       </div>
     </div>
   )
 }
 
-function MenuIcon(props) {
+function Menu(props) {
   return (
     <svg
       {...props}
@@ -175,7 +175,7 @@ function MenuIcon(props) {
   )
 }
 
-function SettingsIcon(props) {
+function Settings(props) {
   return (
     <svg
       {...props}
